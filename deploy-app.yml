@@ -1,0 +1,69 @@
+---
+- name: Deploy polished static site (Nginx) to EC2
+  hosts: webserver
+  become: true
+  vars:
+    web_root: /var/www/tanya
+    site_conf: /etc/nginx/sites-available/tanya
+    site_link: /etc/nginx/sites-enabled/tanya
+
+  tasks:
+
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install nginx + unzip
+      apt:
+        name:
+          - nginx
+          - unzip
+        state: present
+
+    - name: Create website directory
+      file:
+        path: "{{ web_root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Copy site files (HTML + assets)
+      synchronize:
+        src: files/
+        dest: "{{ web_root }}/"
+        recursive: yes
+      notify: restart nginx
+
+    - name: Upload Nginx site config
+      template:
+        src: templates/nginx-site.j2
+        dest: "{{ site_conf }}"
+      notify: restart nginx
+
+    - name: Disable default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+    - name: Enable Tanya’s Nginx site
+      file:
+        src: "{{ site_conf }}"
+        dest: "{{ site_link }}"
+        state: link
+      notify: restart nginx
+
+    - name: Start & enable Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+        
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted
+

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tanya — Nginx + Ansible Demo</title>
+  <meta name="description" content="Automated Nginx deployment on AWS using Ansible — portfolio demo." />
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">Tanya<span class="accent">.</span></a>
+      <nav class="nav">
+        <a href="#features">Features</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="cta" id="view-demo">View Demo</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <h1>Automated Nginx Deployment on AWS</h1>
+          <p class="lead">A polished, portfolio-ready static site provisioned via <strong>Ansible</strong> on an Ubuntu EC2 instance — Nginx configured for production (gzip, cache, security headers).</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#features">See Features</a>
+            <a class="btn ghost" href="#architecture">Get Architecture</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="assets/img/profile-new.jpeg" alt="Profile Image" />
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="container">
+        <h2>What this project includes</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Manual AWS Networking</h3>
+            <p>VPC, public subnet, Internet Gateway, route table and security group configured manually using AWS Console.</p>
+          </article>
+
+          <article class="card">
+            <h3>Ansible Automation</h3>
+            <p>Playbook installs Nginx, uploads site, configures server block and restarts the service — idempotent and repeatable.</p>
+          </article>
+
+          <article class="card">
+            <h3>Production Nginx</h3>
+            <p>Gzip compression, caching headers for assets, security headers and logging best-practices included.</p>
+          </article>
+
+          <article class="card">
+            <h3>Responsive UI</h3>
+            <p>Clean, mobile-first HTML/CSS with hero, features, architecture and contact sections — perfect for portfolio showcase.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="architecture">
+      <div class="container">
+        <h2>Architecture</h2>
+        <p>Control machine runs Ansible from macOS → SSH to EC2 instance in public subnet → Nginx serves static files from <code>/var/www/tanya</code>.</p>
+        <div class="arch-diagram">
+          <pre>
+macOS (Ansible)
+   │ SSH
+   ▼
+EC2 Ubuntu (Nginx)
+   └── /var/www/tanya (index.html + assets)
+        </pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>Contact & Notes</h2>
+        <p>To run deployment:</p>
+        <pre class="code-block">ansible-playbook -i inventory.ini deploy-app.yml</pre>
+        <p>Open <code>http://&lt;EC2_PUBLIC_IP&gt;</code> in browser to verify.</p>
+        <p class="muted">Replace placeholder images with your screenshots before final submission.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© Tanya — Nginx + Ansible demo • Built for portfolio.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
+
